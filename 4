@@ -1,0 +1,37 @@
+#include <stdio.h>
+#include <string.h>
+
+void polyalphabeticEncrypt(char *plaintext, char *key, char *ciphertext) {
+    int keyLength = strlen(key);
+    
+    for (int i = 0, j=0; plaintext[i]; i++) {
+        char pChar = plaintext[i];
+
+        if (pChar >= 'a' && pChar <= 'z') {
+            ciphertext[i] = ((pChar - 'a') + (key[j % keyLength] - 'a')) % 26 + 'a';
+            j++;
+        } else if (pChar >= 'A' && pChar <= 'Z') {
+            ciphertext[i] = ((pChar - 'A') + (key[j % keyLength] - 'A')) % 26 + 'A';
+            j++;
+        } else {
+            ciphertext[i] = pChar;
+        }
+        
+    }
+    
+   ciphertext[strlen(plaintext)]='\0';
+}
+
+int main() {
+   char plaintext[100], key[100], ciphertext[100];
+
+   printf("Enter plaintext: ");
+   fgets(plaintext, sizeof(plaintext), stdin);
+   printf("Enter key: ");
+   fgets(key, sizeof(key), stdin);
+
+   polyalphabeticEncrypt(plaintext, key, ciphertext);
+   printf("Ciphertext: %s\n", ciphertext);
+
+   return 0;
+}
