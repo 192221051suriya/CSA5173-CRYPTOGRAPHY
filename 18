@@ -1,0 +1,14 @@
+#include <stdio.h>
+
+void generateSubkeys(char *key, char subkeys[16][48]) {
+  
+}
+
+int main() {
+    char key[] = "YOUR_KEY_HERE"; 
+    char subkeys[16][48];
+
+    generateSubkeys(key, subkeys);
+    
+    return 0;
+}
