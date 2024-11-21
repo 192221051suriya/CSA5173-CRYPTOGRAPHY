@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <string.h>
+
+#define SIZE 3 // Size of the key matrix
+
+void multiplyMatrices(int first[SIZE][SIZE], int second[SIZE][SIZE], int result[SIZE][SIZE]) {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            result[i][j] = 0;
+            for (int k = 0; k < SIZE; k++) {
+                result[i][j] += first[i][k] * second[k][j];
+            }
+        }
+    }
+}
+
+void encryptHillCipher(char *plaintext, int key[SIZE][SIZE], char *ciphertext) {
+    int len = strlen(plaintext);
+    int paddedLen = len + (SIZE - len % SIZE) % SIZE; // Padding to make length a multiple of SIZE
+    char paddedText[paddedLen];
+
+    for (int i = 0; i < paddedLen; i++) {
+        if (i < len) {
+            paddedText[i] = plaintext[i];
+        } else {
+            paddedText[i] = 'X'; // Padding character
+        }
+    }
+
+    for (int i = 0; i < paddedLen; i += SIZE) {
+        int block[SIZE][1];
+        for (int j = 0; j < SIZE; j++) {
+            block[j][0] = paddedText[i + j] - 'A'; // Convert char to int
+        }
+
+        int result[SIZE][1];
+        multiplyMatrices(key, block, result);
+
+        for (int j = 0; j < SIZE; j++) {
+            ciphertext[i + j] = (result[j][0] % 26) + 'A'; // Convert back to char
+        }
+    }
+    ciphertext[paddedLen] = '\0';
+}
+
+int main() {
+    char plaintext[] = "MEETMEATTHEUSUALPLACEATTENRATHERTHANEIGHTOCLOCK";
+    char ciphertext[100];
+
+    int key[SIZE][SIZE] = { {6, 24, 1}, {13, 16, 10}, {20, 17, 15} }; // Example key matrix
+
+    encryptHillCipher(plaintext, key, ciphertext);
+    
+    printf("Encrypted message: %s\n", ciphertext);
+    
+    return 0;
+}
