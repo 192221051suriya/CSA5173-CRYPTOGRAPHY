@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <string.h>
+
+char decryptAffine(char c, int a_inv, int b) {
+    return ((a_inv * (c - 'A' - b + 26)) % 26) + 'A';
+}
+
+int modInverse(int a, int m) {
+    a %= m;
+    for (int x = 1; x < m; x++) {
+        if ((a * x) % m == 1) return x;
+    }
+    return -1;
+}
+
+void breakAffineCipher(char *ciphertext, char mostFreq1, char mostFreq2) {
+    int a, b;
+    int freq1 = mostFreq1 - 'A';
+    int freq2 = mostFreq2 - 'A';
+
+    for (a = 1; a < 26; a++) {
+        int a_inv = modInverse(a, 26);
+        if (a_inv == -1) continue;
+
+        for (b = 0; b < 26; b++) {
+            char decrypted[100];
+            for (int i = 0; ciphertext[i]; i++) {
+                if (ciphertext[i] >= 'A' && ciphertext[i] <= 'Z') {
+                    decrypted[i] = decryptAffine(ciphertext[i], a_inv, b);
+                } else {
+                    decrypted[i] = ciphertext[i];
+                }
+            }
+            decrypted[strlen(ciphertext)] = '\0';
+
+            if (decrypted[0] == 'E') { // Check if the first letter is E
+                printf("Possible decryption with a=%d, b=%d: %s\n", a, b, decrypted);
+            }
+        }
+    }
+}
+
+int main() {
+    char ciphertext[] = "YOUR_CIPHERTEXT_HERE"; // Replace with actual ciphertext
+    breakAffineCipher(ciphertext, 'B', 'U');
+    return 0;
+}
