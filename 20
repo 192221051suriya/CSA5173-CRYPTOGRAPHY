@@ -1,0 +1,13 @@
+#include <stdio.h>
+
+void ecbModeErrorPropagation(char *ciphertext) {
+   
+}
+
+int main() {
+    char ciphertext[] = "YOUR_CIPHERTEXT_HERE"; 
+
+    ecbModeErrorPropagation(ciphertext);
+    
+    return 0;
+}
