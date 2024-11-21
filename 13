@@ -1,0 +1,16 @@
+#include <stdio.h>
+#include <string.h>
+
+// Function to perform known plaintext attack on Hill cipher
+void knownPlaintextAttack(char *plaintext, char *ciphertext) {
+    // Logic to derive key from known plaintext-ciphertext pairs goes here.
+}
+
+int main() {
+    char plaintext[] = "MEETME";
+    char ciphertext[] = "YOURCIPHERTEXT"; // Replace with actual ciphertext
+
+    knownPlaintextAttack(plaintext, ciphertext);
+
+    return 0;
+}
