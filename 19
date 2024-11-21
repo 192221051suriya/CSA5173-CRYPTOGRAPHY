@@ -1,0 +1,17 @@
+#include <stdio.h>
+
+void encrypt3DES(char *plaintext, char *key, char *ciphertext) {
+   
+}
+
+int main() {
+    char plaintext[] = "YOUR_PLAINTEXT_HERE"; 
+    char key[] = "YOUR_KEY_HERE"; 
+    char ciphertext[100];
+
+    encrypt3DES(plaintext, key, ciphertext);
+    
+    printf("Ciphertext: %s\n", ciphertext);
+    
+    return 0;
+}
