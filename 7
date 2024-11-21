@@ -1,0 +1,35 @@
+#include <stdio.h>
+#include <string.h>
+
+void decryptSubstitution(char *ciphertext) {
+    char key[256] = {0}; // Store mapping
+    char decrypted[100];
+    
+    // Assume mappings based on frequency analysis
+    key['$'] = 'E';
+    key['t'] = 'T';
+    key['6'] = 'H';
+    
+    // Fill in other mappings based on analysis
+    // Example: key['8'] = 'O'; etc.
+
+    for (int i = 0; ciphertext[i]; i++) {
+        if (key[(unsigned char)ciphertext[i]] != 0) {
+            decrypted[i] = key[(unsigned char)ciphertext[i]];
+        } else {
+            decrypted[i] = ciphertext[i]; // Keep unchanged if not mapped
+        }
+    }
+    
+    decrypted[strlen(ciphertext)] = '\0';
+    
+    printf("Decrypted message: %s\n", decrypted);
+}
+
+int main() {
+    char ciphertext[] = "53$t†305))6*;4826)4t.)4$):806*;48†8(60))85;;]8*,:$8†83 (88)5*t;46(;88*96*2;8)$(:485);5*2:$(:4956*2(5*_ 4)878*;4069285);)6+8)4tt:1(t9;48081;8:8$1;48+85;4)485t528806*81 ($9;48;(88;4(|?34;48)4t;161;:188;$?|";
+    
+    decryptSubstitution(ciphertext);
+    
+    return 0;
+}
