@@ -1,0 +1,73 @@
+#include <stdio.h>
+#include <string.h>
+
+void createMatrix(char *key, char matrix[5][5]) {
+    int used[26] = {0};
+    int row = 0, col = 0;
+
+    for (int i = 0; key[i]; i++) {
+        if (key[i] == 'j') key[i] = 'i';
+        if (!used[key[i] - 'a']) {
+            used[key[i] - 'a'] = 1;
+            matrix[row][col++] = key[i];
+            if (col == 5) { col = 0; row++; }
+        }
+    }
+
+    for (char c = 'a'; c <= 'z'; c++) {
+        if (c == 'j') continue;
+        if (!used[c - 'a']) {
+            matrix[row][col++] = c;
+            if (col == 5) { col = 0; row++; }
+        }
+    }
+}
+
+void playfairEncrypt(char *plaintext, char matrix[5][5], char *ciphertext) {
+    for (int i = 0; plaintext[i]; i += 2) {
+        char a = plaintext[i], b;
+        if (!plaintext[i + 1]) b = 'x';
+        else b = plaintext[i + 1];
+
+        if (a == b) b = 'x';
+
+        int row1, col1, row2, col2;
+        for (row1 = col1 = row2 = col2 = 0; row1 < 5; row1++)
+            for (col1 = 0; col1 < 5; col1++)
+                if (matrix[row1][col1] == a) break;
+
+        for (row2 = col2 = 0; row2 < 5; row2++)
+            for (col2 = 0; col2 < 5; col2++)
+                if (matrix[row2][col2] == b) break;
+
+        if (row1 == row2) {
+            ciphertext[strlen(ciphertext)] = matrix[row1][(col1 + 1) % 5];
+            ciphertext[strlen(ciphertext)] = matrix[row2][(col2 + 1) % 5];
+        } else if (col1 == col2) {
+            ciphertext[strlen(ciphertext)] = matrix[(row1 + 1) % 5][col1];
+            ciphertext[strlen(ciphertext)] = matrix[(row2 + 1) % 5][col2];
+        } else {
+            ciphertext[strlen(ciphertext)] = matrix[row1][col2];
+            ciphertext[strlen(ciphertext)] = matrix[row2][col1];
+        }
+    }
+}
+
+int main() {
+    char key[100], plaintext[100], ciphertext[100];
+    char matrix[5][5];
+
+    printf("Enter key: ");
+    fgets(key, sizeof(key), stdin);
+    
+    printf("Enter plaintext: ");
+    fgets(plaintext, sizeof(plaintext), stdin);
+    
+    createMatrix(key, matrix);
+    
+    playfairEncrypt(plaintext, matrix, ciphertext);
+    
+    printf("Ciphertext: %s\n", ciphertext);
+
+    return 0;
+}
