@@ -1,0 +1,22 @@
+#include <stdio.h>
+#include <string.h>
+
+void generateKeys(char *key, char keys[16][48]) {
+    // Implement key generation logic here
+}
+
+void desDecrypt(char *ciphertext, char *key) {
+    char keys[16][48];
+    generateKeys(key, keys);
+    
+    // Implement DES decryption logic here using keys in reverse order
+}
+
+int main() {
+    char ciphertext[] = "YOUR_CIPHERTEXT_HERE"; // Replace with actual ciphertext
+    char key[] = "YOUR_KEY_HERE"; // Replace with actual key
+
+    desDecrypt(ciphertext, key);
+    
+    return 0;
+}
