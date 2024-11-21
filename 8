@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include <string.h>
+
+void generateCipher(char *keyword, char *cipher) {
+    int used[26] = {0};
+    int index = 0;
+
+    for (int i = 0; keyword[i]; i++) {
+        char c = keyword[i];
+        if (c >= 'A' && c <= 'Z' && !used[c - 'A']) {
+            cipher[index++] = c;
+            used[c - 'A'] = 1;
+        } else if (c >= 'a' && c <= 'z' && !used[c - 'a']) {
+            cipher[index++] = c - ('a' - 'A');
+            used[c - 'a'] = 1;
+        }
+    }
+
+    for (char c = 'A'; c <= 'Z'; c++) {
+        if (!used[c - 'A']) {
+            cipher[index++] = c;
+        }
+    }
+    
+    cipher[index] = '\0';
+}
+
+int main() {
+    char keyword[100], cipher[27];
+
+    printf("Enter keyword: ");
+    fgets(keyword, sizeof(keyword), stdin);
+    
+    generateCipher(keyword, cipher);
+    
+    printf("Cipher sequence: %s\n", cipher);
+
+    return 0;
+}
