@@ -1,0 +1,12 @@
+#include <stdio.h>
+
+void des_encrypt(unsigned char *block, unsigned char *key) {}
+void des_decrypt(unsigned char *block, unsigned char *key) {}
+
+int main() {
+    unsigned char plaintext[8] = {0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF};
+    unsigned char key[8] = {0x13, 0x34, 0x57, 0x79, 0x9A, 0xBC, 0xDE, 0xF0};
+    des_encrypt(plaintext, key);
+    des_decrypt(plaintext, key);
+    return 0;
+}
