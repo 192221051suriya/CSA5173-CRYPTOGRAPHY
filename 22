@@ -1,0 +1,34 @@
+#include <stdio.h>
+
+int sdes_encrypt(int plaintext, int key) {
+    return plaintext ^ key;
+}
+
+int sdes_decrypt(int ciphertext, int key) {
+    return ciphertext ^ key;
+}
+
+int main() {
+    int iv = 0xAA; 
+    int plaintext[] = {0x01, 0x23};
+    int key = 0x1FD; 
+    int ciphertext[2], decrypted[2];
+    int prev = iv;
+
+    for (int i = 0; i < 2; i++) {
+        ciphertext[i] = sdes_encrypt(plaintext[i] ^ prev, key);
+        prev = ciphertext[i];
+    }
+
+    prev = iv;
+    for (int i = 0; i < 2; i++) {
+        decrypted[i] = sdes_decrypt(ciphertext[i], key) ^ prev;
+        prev = ciphertext[i];
+    }
+
+    for (int i = 0; i < 2; i++) {
+        printf("Ciphertext: %02X, Decrypted: %02X\n", ciphertext[i], decrypted[i]);
+    }
+
+    return 0;
+}
