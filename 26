@@ -1,0 +1,24 @@
+#include <stdio.h>
+
+long long modular_inverse(long long e, long long phi) {
+    long long t = 0, new_t = 1, r = phi, new_r = e;
+    while (new_r != 0) {
+        long long q = r / new_r;
+        long long temp = new_t;
+        new_t = t - q * new_t;
+        t = temp;
+        temp = new_r;
+        new_r = r - q * new_r;
+        r = temp;
+    }
+    if (t < 0) t += phi;
+    return t;
+}
+
+int main() {
+    long long n = 3599, p = 59, q = 61, old_d = 2991, e = 31;
+    long long phi = (p - 1) * (q - 1);
+    long long new_e = 37, new_d = modular_inverse(new_e, phi);
+    printf("New public key: %lld, New private key: %lld\n", new_e, new_d);
+    return 0;
+}
