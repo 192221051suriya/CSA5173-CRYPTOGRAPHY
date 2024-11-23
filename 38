@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <string.h>
+
+void matrix_multiply(int *A, int *B, int *C, int size) {
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            C[i * size + j] = 0;
+            for (int k = 0; k < size; k++) {
+                C[i * size + j] += A[i * size + k] * B[k * size + j];
+            }
+            C[i * size + j] %= 26;
+        }
+    }
+}
+
+void hill_encrypt(char *plaintext, int *key_matrix, int size) {
+    int matrix[100];
+    for (int i = 0; plaintext[i] != '\0'; i++) {
+        matrix[i] = plaintext[i] - 'A';
+    }
+    matrix_multiply(key_matrix, matrix, matrix, size);
+    for (int i = 0; plaintext[i] != '\0'; i++) {
+        plaintext[i] = (matrix[i] % 26) + 'A';
+    }
+}
+
+int main() {
+    char plaintext[] = "HELLO";
+    int key_matrix[4] = {6, 24, 1, 13};
+    hill_encrypt(plaintext, key_matrix, 2);
+    return 0;
+}
