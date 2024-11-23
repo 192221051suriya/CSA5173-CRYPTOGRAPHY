@@ -1,0 +1,29 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int mod_exp(int base, int exp, int mod) {
+    int result = 1;
+    base = base % mod;
+    while (exp > 0) {
+        if (exp % 2 == 1) result = (result * base) % mod;
+        exp = exp >> 1;
+        base = (base * base) % mod;
+    }
+    return result;
+}
+
+void generate_signature(int message, int p, int q, int g, int private_key, int *r, int *s) {
+    int k = rand() % (q - 1) + 1;
+    *r = mod_exp(g, k, p) % q;
+    int k_inv = mod_exp(k, q - 2, q);
+    *s = (k_inv * (message + *r * private_key)) % q;
+}
+
+int main() {
+    srand(time(NULL));
+    int p = 23, q = 11, g = 5, private_key = 7, message = 15;
+    int r, s;
+    generate_signature(message, p, q, g, private_key, &r, &s);
+    return 0;
+}
