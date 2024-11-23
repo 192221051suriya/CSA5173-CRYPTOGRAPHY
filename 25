@@ -1,0 +1,25 @@
+#include <stdio.h>
+
+long long gcd(long long a, long long b) {
+    while (b != 0) {
+        long long temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
+
+int main() {
+    long long n = 3599, e = 31, ciphertext = 2000, plaintext = 118;
+    long long f = gcd(plaintext, n);
+
+    if (f > 1) {
+        long long p = f, q = n / f;
+        long long phi = (p - 1) * (q - 1);
+        printf("Factorization successful: p = %lld, q = %lld\n", p, q);
+    } else {
+        printf("Common factor not found.\n");
+    }
+
+    return 0;
+}
