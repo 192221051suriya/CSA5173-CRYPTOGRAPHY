@@ -1,0 +1,17 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+void vigenere_encrypt(char *plaintext, int *key_stream, int length) {
+    for (int i = 0; i < length; i++) {
+        plaintext[i] = (plaintext[i] + key_stream[i]) % 26 + 'A';
+    }
+}
+
+int main() {
+    char plaintext[] = "HELLO";
+    int key_stream[] = {3, 19, 5, 12, 6};
+    int length = 5;
+    vigenere_encrypt(plaintext, key_stream, length);
+    return 0;
+}
