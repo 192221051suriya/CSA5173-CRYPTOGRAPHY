@@ -1,0 +1,34 @@
+#include <stdio.h>
+#include <string.h>
+
+void xor_with_constant(unsigned char *block, unsigned char constant) {
+    block[0] ^= constant;
+}
+
+void left_shift(unsigned char *block) {
+    unsigned char carry = 0;
+    for (int i = 15; i >= 0; i--) {
+        unsigned char next_carry = block[i] & 0x80;
+        block[i] = (block[i] << 1) | carry;
+        carry = next_carry ? 1 : 0;
+    }
+}
+
+void generate_subkeys(unsigned char *key, unsigned char *k1, unsigned char *k2) {
+    unsigned char zero_block[16] = {0};
+    unsigned char k[16];
+    memcpy(k, zero_block, 16);
+    left_shift(k);
+    if (k[0] & 0x80) xor_with_constant(k, 0x87);
+    memcpy(k1, k, 16);
+    left_shift(k1);
+    if (k1[0] & 0x80) xor_with_constant(k1, 0x87);
+    memcpy(k2, k1, 16);
+}
+
+int main() {
+    unsigned char key[16] = {0};
+    unsigned char k1[16], k2[16];
+    generate_subkeys(key, k1, k2);
+    return 0;
+}
