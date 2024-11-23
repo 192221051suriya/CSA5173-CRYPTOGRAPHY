@@ -1,0 +1,15 @@
+#include <stdio.h>
+
+void encrypt_ecb(unsigned char *block, unsigned char *key) {}
+void encrypt_cbc(unsigned char *block, unsigned char *key, unsigned char *iv) {}
+void encrypt_cfb(unsigned char *block, unsigned char *key, unsigned char *iv) {}
+
+int main() {
+    unsigned char block[8] = {0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF};
+    unsigned char key[8] = {0x13, 0x34, 0x57, 0x79, 0x9A, 0xBC, 0xDE, 0xF0};
+    unsigned char iv[8] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+    encrypt_ecb(block, key);
+    encrypt_cbc(block, key, iv);
+    encrypt_cfb(block, key, iv);
+    return 0;
+}
