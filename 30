@@ -1,0 +1,9 @@
+#include <stdio.h>
+
+int main() {
+    int X = 0x12, T = 0x34, K = 0x56;
+    int Y = X ^ T, new_MAC;
+    new_MAC = (Y ^ K) ^ X;
+    printf("Two-block CBC-MAC: %02X\n", new_MAC);
+    return 0;
+}
