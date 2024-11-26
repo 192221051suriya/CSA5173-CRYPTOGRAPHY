@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <string.h>
+
+#define BLOCK_SIZE 16 // Block size in bytes
+
+// Simulate a block cipher encryption (dummy function for demonstration)
+void block_cipher_encrypt(const unsigned char *key, const unsigned char *input, unsigned char *output) {
+    for (int i = 0; i < BLOCK_SIZE; i++) {
+        output[i] = input[i] ^ key[i]; // Simple XOR encryption (for demo only, not secure)
+    }
+}
+
+// CBC-MAC for a one-block message
+void compute_cbc_mac(const unsigned char *key, const unsigned char *message, unsigned char *mac) {
+    block_cipher_encrypt(key, message, mac);
+}
+
+int main() {
+    unsigned char key[BLOCK_SIZE] = "abcdefghijklmnop"; // 16-byte key
+    unsigned char message[BLOCK_SIZE] = "Hello, CBC-MAC!"; // 16-byte message
+    unsigned char mac[BLOCK_SIZE]; // To store the MAC
+    unsigned char second_block[BLOCK_SIZE]; // For the vulnerability demonstration
+    unsigned char concatenated_mac[BLOCK_SIZE]; // CBC-MAC of the concatenated message
+
+    // Compute CBC-MAC for the single-block message
+    compute_cbc_mac(key, message, mac);
+    printf("CBC-MAC for message: ");
+    for (int i = 0; i < BLOCK_SIZE; i++) {
+        printf("%02x", mac[i]);
+    }
+    printf("\n");
+
+    // Compute the second block: X XOR T
+    for (int i = 0; i < BLOCK_SIZE; i++) {
+        second_block[i] = message[i] ^ mac[i];
+    }
+
+    // Compute CBC-MAC for X || (X XOR T)
+    compute_cbc_mac(key, second_block, concatenated_mac);
+    printf("CBC-MAC for concatenated message: ");
+    for (int i = 0; i < BLOCK_SIZE; i++) {
+        printf("%02x", concatenated_mac[i]);
+    }
+    printf("\n");
+
+    return 0;
+}
